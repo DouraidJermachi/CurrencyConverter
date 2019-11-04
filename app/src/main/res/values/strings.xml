@@ -1,0 +1,12 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">CurrenciesConverter</string>
+    <string name="hint">start typing</string>
+    <string name="there_is_no_result_message">No results found. Please try again</string>
+    <string name="currency_name_plus_symbol"><xliff:g example="currency name" id="currencyName">%1$s</xliff:g> (<xliff:g example="$" id="currencySymbol">%2$s</xliff:g>)</string>
+    <string name="error_unknown">Oops! Something went wrong, try again later.</string>
+
+
+    <string name="GT_America_Extended_Black">fonts/GT-America-Extended-Black.otf</string>
+    <string name="GT_America_Extended_Regular">fonts/GT-America-Extended-Regular.otf</string>
+    <string name="GT_America_Extended_Bold">fonts/GT-America-Extended-Bold.otf</string>
+</resources>
