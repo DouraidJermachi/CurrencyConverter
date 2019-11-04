@@ -1,4 +1,4 @@
-package com.currenciesconverter.app
+package com.currenciesconverter.core
 
 data class CurrencyModel(
     val code: String,

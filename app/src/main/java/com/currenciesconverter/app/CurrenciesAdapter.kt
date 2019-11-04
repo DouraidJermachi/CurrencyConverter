@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.currenciesconverter.R
+import com.currenciesconverter.core.CurrencyModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.currency_element.view.*
 

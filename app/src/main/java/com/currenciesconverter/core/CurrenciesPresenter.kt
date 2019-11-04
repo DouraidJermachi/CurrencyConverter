@@ -2,8 +2,6 @@ package com.currenciesconverter.core
 
 
 import com.currenciesconverter.R
-import com.currenciesconverter.app.CurrencyModel
-import com.currenciesconverter.app.CurrencyModelMapper
 import com.currenciesconverter.utils.CoroutineDispatcherFactory
 import com.currenciesconverter.utils.StringResourceWrapper
 import kotlinx.coroutines.CoroutineScope

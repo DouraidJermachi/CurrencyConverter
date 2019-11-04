@@ -1,7 +1,5 @@
 package com.currenciesconverter.core
 
-import com.currenciesconverter.app.CurrencyModel
-
 internal sealed class CurrenciesEvent {
 
     data class Init(val baseModel: CurrencyModel) : CurrenciesEvent()

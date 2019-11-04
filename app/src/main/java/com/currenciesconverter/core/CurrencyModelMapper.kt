@@ -1,6 +1,4 @@
-package com.currenciesconverter.app
-
-import com.currenciesconverter.core.CurrencyDomain
+package com.currenciesconverter.core
 
 interface CurrencyModelMapper {
     fun mapToModel(currencyDomain: CurrencyDomain): CurrencyModel

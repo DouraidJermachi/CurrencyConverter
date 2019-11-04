@@ -1,7 +1,5 @@
 package com.currenciesconverter.core
 
-import com.currenciesconverter.app.CurrencyModel
-
 interface CurrenciesContract {
 
     interface View {

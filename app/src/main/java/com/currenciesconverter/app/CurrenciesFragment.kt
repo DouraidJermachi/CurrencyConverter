@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.currenciesconverter.R
 import com.currenciesconverter.core.CurrenciesContract
+import com.currenciesconverter.core.CurrencyModel
 import com.currenciesconverter.utils.NewAndroidUtils
 import com.currenciesconverter.utils.SnackbarDecorator
 import com.google.android.material.snackbar.Snackbar
