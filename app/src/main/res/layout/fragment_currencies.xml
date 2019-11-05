@@ -7,6 +7,19 @@
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/space_18dp">
 
+    <TextView
+        android:id="@+id/screenTitle"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16dp"
+        android:layout_marginEnd="@dimen/space_16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/title"
+        app:layout_constraintStart_toStartOf="@+id/currencyCode"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/avatarImageView"
         android:layout_width="@dimen/space_54dp"
@@ -14,9 +27,9 @@
         android:layout_marginStart="@dimen/space_16dp"
         android:layout_marginTop="@dimen/space_16dp"
         android:layout_marginBottom="@dimen/space_16dp"
+        android:src="@drawable/flag_eur"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[14]" />
+        app:layout_constraintTop_toBottomOf="@+id/screenTitle" />
 
     <TextView
         android:id="@+id/currencyCode"
@@ -24,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_16dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/space_3dp"
         android:layout_marginEnd="@dimen/space_16dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -51,10 +64,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/space_16dp"
         android:ellipsize="end"
-        android:text="1"
         android:imeOptions="actionSearch"
         android:inputType="numberDecimal"
         android:maxLines="1"
+        android:text="1"
         app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/avatarImageView" />
@@ -63,10 +76,11 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/space_80dp"
+        android:layout_marginTop="@dimen/space_120dp"
         android:overScrollMode="never"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/queryEditText" />
 
     <TextView
         android:id="@+id/noResultFoundView"

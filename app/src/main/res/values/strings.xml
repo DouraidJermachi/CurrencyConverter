@@ -1,5 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">CurrenciesConverter</string>
+    <string name="title">Rates</string>
     <string name="hint">start typing</string>
     <string name="there_is_no_result_message">No results found. Please try again</string>
     <string name="currency_name_plus_symbol"><xliff:g example="currency name" id="currencyName">%1$s</xliff:g> (<xliff:g example="$" id="currencySymbol">%2$s</xliff:g>)</string>
