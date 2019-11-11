@@ -11,13 +11,16 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.coroutines.CoroutineContext
 
 internal class CurrenciesPresenter(
     private val interactor: CurrenciesContract.Interactor,
     private val dispatcherFactory: CoroutineDispatcherFactory,
     private val modelMapper: CurrencyModelMapper,
-    private val strings: StringResourceWrapper
+    private val strings: StringResourceWrapper,
+    private val delayTime:Long = 0
 ) : CurrenciesContract.Presenter, CoroutineScope {
 
     private val channel = Channel<CurrenciesEvent>(Channel.RENDEZVOUS)
@@ -28,6 +31,7 @@ internal class CurrenciesPresenter(
 
     private var view: CurrenciesContract.View? = null
 
+    private var queryCurrency = DOMAIN_EUR
     private var currenciesModel = emptyList<CurrencyModel>()
 
     override fun bindView(view: CurrenciesContract.View) {
@@ -48,7 +52,11 @@ internal class CurrenciesPresenter(
     override fun init() {
         view?.showLoading(true)
         sendEvent(CurrenciesEvent.Init(modelMapper.mapToModel(DOMAIN_EUR)))
-        sendEvent(CurrenciesEvent.Fetch(EUR, AMOUNT1.toFloat()))
+        sendEvent(CurrenciesEvent.Fetch)
+        val timer = Timer("periodic fetch", false)
+        timer.schedule(delayTime, 1000) {
+            sendEvent(CurrenciesEvent.Fetch)
+        }
     }
 
     override fun onCurrencyClicked(currencyModel: CurrencyModel) {
@@ -87,26 +95,43 @@ internal class CurrenciesPresenter(
         receiveChannel: ReceiveChannel<CurrenciesEvent>
     ) = produce(dispatcherFactory.IODispatcher, Channel.RENDEZVOUS) {
 
-        var queryCurrency = DOMAIN_EUR
+        var zeroRates: List<CurrencyModel>
 
         for (event in receiveChannel) {
             try {
                 when (event) {
                     is CurrenciesEvent.Fetch -> {
-                        val domains = interactor.getAllCurrencies(event.base, event.amount)
-                        when (domains) {
-                            is CurrenciesDomain.Valid -> {
-                                send(CurrenciesEvent.UpdateUi(domains.currencies.map {
-                                    modelMapper.mapToModel(
-                                        it
-                                    )
-                                }))
-                            }
-                            is CurrenciesDomain.Invalid -> send(
-                                CurrenciesEvent.ShowError(
-                                    domains.errorMessag
-                                )
+                        var amount = AMOUNT0
+                        try {
+                            val amountF = queryCurrency.amount?.toFloat()
+                            amount = amountF.toString()
+                        } catch (e: Exception) {
+                            //do nothing
+                        }
+
+                        if (amount == AMOUNT0) {
+                             zeroRates = replaceWithZeroAmount()
+                            send(CurrenciesEvent.UpdateUi(zeroRates))
+                        } else {
+
+                            val domains = interactor.getAllCurrencies(
+                                queryCurrency.code,
+                                queryCurrency.amount?.toFloat()
                             )
+                            when (domains) {
+                                is CurrenciesDomain.Valid -> {
+                                    send(CurrenciesEvent.UpdateUi(domains.currencies.map {
+                                        modelMapper.mapToModel(
+                                            it
+                                        )
+                                    }))
+                                }
+                                is CurrenciesDomain.Invalid -> send(
+                                    CurrenciesEvent.ShowError(
+                                        domains.errorMessag
+                                    )
+                                )
+                            }
                         }
                     }
                     is CurrenciesEvent.OnCurrencySelected -> {
@@ -130,6 +155,7 @@ internal class CurrenciesPresenter(
                         }
                     }
                     is CurrenciesEvent.OnTyping -> {
+                        queryCurrency = queryCurrency.copy(amount = event.amount)
                         var amount = AMOUNT0
                         try {
                             val amountF = event.amount.toFloat()
@@ -139,10 +165,9 @@ internal class CurrenciesPresenter(
                         }
 
                         if (amount == AMOUNT0) {
-                            val zerosList = replaceWithZeroAmount()
-                            send(CurrenciesEvent.UpdateUi(zerosList))
+                            zeroRates = replaceWithZeroAmount()
+                            send(CurrenciesEvent.UpdateUi(zeroRates))
                         } else {
-
                             val domains = interactor.getAllCurrencies(
                                 queryCurrency.code,
                                 event.amount.toFloat()

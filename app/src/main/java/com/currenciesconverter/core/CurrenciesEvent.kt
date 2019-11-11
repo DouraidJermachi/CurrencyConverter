@@ -4,7 +4,7 @@ internal sealed class CurrenciesEvent {
 
     data class Init(val baseModel: CurrencyModel) : CurrenciesEvent()
 
-    data class Fetch(val base: String, val amount: Float) : CurrenciesEvent()
+    object Fetch : CurrenciesEvent()
 
     data class OnCurrencySelected(
         val selectedCurrencyModel: CurrencyModel

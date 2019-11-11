@@ -11,7 +11,6 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.times
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
@@ -42,7 +41,8 @@ class CurrenciesPresenterTest {
             mockedInteractor,
             mockedDF,
             mockedModelMapper,
-            mockedStringResourceWrapper
+            mockedStringResourceWrapper,
+            20000
         )
 
         presenter.bindView(mockedView)
@@ -233,7 +233,6 @@ class CurrenciesPresenterTest {
 
             // then
 
-            Mockito.verify(mockedView, times(2)).showLoading(false)
             val expectedList = listOf(modelEUR)
             Mockito.verify(mockedView).setItems(expectedList)
         }
@@ -391,7 +390,7 @@ class CurrenciesPresenterTest {
         }
 
     @Test
-    fun `when user submit a search a float number and interactor return an empty list, then set the same list with zero amount`() =
+    fun `when user submit a search for a float number and interactor return an empty list, then set the same list with zero amount`() =
         runBlocking {
             // given
             val newAmount = "5.6"
