@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,19 +18,20 @@ internal class CurrenciesAdapter(
     private val holderFactory: CurrenciesViewHolderFactory
 ) : RecyclerView.Adapter<CurrenciesViewHolder>() {
 
-    private var currencies = emptyList<CurrencyModel>()
+    private val currenciesAsyncList: AsyncListDiffer<CurrencyModel> by lazy { AsyncListDiffer(this, CurrenciesDiffUtil()) }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrenciesViewHolder =
         holderFactory.onCreateViewHolder(parent)
 
     override fun onBindViewHolder(viewHolder: CurrenciesViewHolder, position: Int) {
-        viewHolder.bind(currencies[position], listener)
+        viewHolder.bind(currenciesAsyncList.currentList[position], listener)
     }
 
-    override fun getItemCount() = currencies.size
+    override fun getItemCount() = currenciesAsyncList.currentList.size
 
     fun setItems(currencies: List<CurrencyModel>) {
-        this.currencies = currencies
+        currenciesAsyncList.submitList(currencies)
     }
 
     interface Listener {
